@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Configuration Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+  </head>
+  <body>
+    <h1 class="titulo-centrado">Configuration Interface</h1>
+    <form action="/submit" method="post" id="configurationForm">
+    </form>
+    <!-- bucle que recorre las variables de las que necesitamos el formulario de configuración-->
+    {% for var, details in variables.items() %}
+    <div class="variable-section">
+
+      <!-- identificamos el tipo de variable entre number, string, boolean y array-->
+      {% if details.type == 'number' %}
+        <label for="{{ var }}">{{ var }} :</label>
+        <input type="number" name="{{ var }}" form="configurationForm">
+      
+      {% elif details.type == 'string' %}
+        <label for="{{ var }}">{{ var }} :</label>
+        <input type="text" name="{{ var }}" form="configurationForm" class="wide-input">
+      
+      {% elif details.type == 'boolean' %}
+        <label for="{{ var }}">{{ var }} :</label>
+        <input type="checkbox" name="{{ var }}" form="configurationForm">
+      
+      <!-- si la variable es un array, creamos un bucle que recorra cada uno de los elementos del array-->
+      {% elif details.type == 'array' %}
+        <h4 class="array-title">{{ var}}</h4>
+        {% for i in range(details.len) %}
+        <div class="array-item">
+          <!-- identificamos el tipo de variable entre number, string y boolean-->
+          {% if details['array-type'] == 'number' %}
+            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
+            <input type="number" name="{{ var }}[{{ i }}]" form="configurationForm">
+    
+          {% elif details['array-type'] == 'string' %}
+            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
+            <input type="text" name="{{ var }}[{{ i }}]" form="configurationForm" class="wide-input2">
+    
+          {% elif details['array-type'] == 'boolean' %}
+            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
+            <input type="checkbox" name="{{ var }}[{{ i }}]" form="configurationForm">
+          {% endif %}
+
+        </div>
+        {% endfor %}
+      {% endif %}
+
+    </div>
+    {% endfor %}    
+  </body>
+</html>

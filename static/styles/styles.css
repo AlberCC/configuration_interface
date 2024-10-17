@@ -1,0 +1,36 @@
+.variable-section {
+    border: 1px solid #000; /* Borde negro */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado entre secciones */
+    border-radius: 5px; /* Bordes redondeados */
+    max-width: 500px; /* Ancho máximo */
+    margin-left: auto; /* Centrar horizontalmente */
+    margin-right: auto; /* Centrar horizontalmente */
+}
+
+.wide-input {
+    width: 100%; /* Ajusta el ancho según tus necesidades */
+    max-width: 400px; /* Ancho máximo opcional */
+}
+
+.titulo-centrado {
+    text-align: center;
+}
+
+.array-item {
+    border: 1px solid #ccc; /* Borde gris claro */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado entre elementos */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.array-title {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: auto;
+}
+
+.wide-input2 {
+    width: 100%; /* Ajusta el ancho según tus necesidades */
+    max-width: 350px; /* Ancho máximo opcional */
+}
