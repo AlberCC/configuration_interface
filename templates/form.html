@@ -8,48 +8,116 @@
   <body>
     <h1 class="titulo-centrado">Configuration Interface</h1>
     <form action="/submit" method="post" id="configurationForm">
-    </form>
-    <!-- bucle que recorre las variables de las que necesitamos el formulario de configuración-->
-    {% for var, details in variables.items() %}
-    <div class="variable-section">
+    <!-- bucle que recorre las variables de las que necesitamos el formulario de configuración -->
+      {% for var, details in variables.items() %}
+        <div class="variable-section">
 
-      <!-- identificamos el tipo de variable entre number, string, boolean y array-->
-      {% if details.type == 'number' %}
-        <label for="{{ var }}">{{ var }} :</label>
-        <input type="number" name="{{ var }}" form="configurationForm">
-      
-      {% elif details.type == 'string' %}
-        <label for="{{ var }}">{{ var }} :</label>
-        <input type="text" name="{{ var }}" form="configurationForm" class="wide-input">
-      
-      {% elif details.type == 'boolean' %}
-        <label for="{{ var }}">{{ var }} :</label>
-        <input type="checkbox" name="{{ var }}" form="configurationForm">
-      
-      <!-- si la variable es un array, creamos un bucle que recorra cada uno de los elementos del array-->
-      {% elif details.type == 'array' %}
-        <h4 class="array-title">{{ var}}</h4>
-        {% for i in range(details.len) %}
-        <div class="array-item">
-          <!-- identificamos el tipo de variable entre number, string y boolean-->
-          {% if details['array-type'] == 'number' %}
-            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
-            <input type="number" name="{{ var }}[{{ i }}]" form="configurationForm">
-    
-          {% elif details['array-type'] == 'string' %}
-            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
-            <input type="text" name="{{ var }}[{{ i }}]" form="configurationForm" class="wide-input2">
-    
-          {% elif details['array-type'] == 'boolean' %}
-            <label for="{{ var }}[{{ i }}]">{{ var }} :</label>
-            <input type="checkbox" name="{{ var }}[{{ i }}]" form="configurationForm">
+          <!-- identificamos el tipo de variable entre number, string y boolean -->
+          {% if details.type == 'number' %}
+            <label for="{{ var }}">{{ var }} :</label>
+            <input type="number" name="{{ var }}" form="configurationForm">
+
+          {% elif details.type == 'string' %}
+            <label for="{{ var }}">{{ var }} :</label>
+            <input type="text" name="{{ var }}" form="configurationForm" class="wide-input">
+
+          {% elif details.type == 'boolean' %}
+            <label for="{{ var }}">{{ var }} :</label>
+            <input type="checkbox" name="{{ var }}" form="configurationForm">
+
+          <!-- si la variable es un array, creamos un bucle que recorra cada uno de los elementos del array -->
+          {% elif details.type == 'array' %}
+            <h3 class="array-title">{{ var}}</h3>
+            {% for i in range(details.len) %}
+              <div class="array-item">
+
+                <!-- identificamos el tipo de variable del array entre number, string y boolean -->
+                {% if details['array-type'] == 'number' %}
+                  <label for="{{ var }}[{{ i }}]">{{ var }}[{{ i }}] :</label>
+                  <input type="number" name="{{ var }}[{{ i }}]" form="configurationForm">
+              
+                {% elif details['array-type'] == 'string' %}
+                  <label for="{{ var }}[{{ i }}]">{{ var }}[{{ i }}] :</label>
+                  <input type="text" name="{{ var }}[{{ i }}]" form="configurationForm" class="wide-input2">
+              
+                {% elif details['array-type'] == 'boolean' %}
+                  <label for="{{ var }}[{{ i }}]">{{ var }}[{{ i }}] :</label>
+                  <input type="checkbox" name="{{ var }}[{{ i }}]" form="configurationForm">
+
+                {% else %}
+                  {% if details['array-type'] in types %}
+                    
+                    <!-- buscamos el tipo de variable entre las estructuras de datos personalizadas -->
+                    {% for type, typedetails in types.items() %}
+                      {% if details['array-type'] == type %}
+                        <h5 class="array-edat-title">{{ var }}[{{i}}]</h5>
+                
+                        <!-- creamos un bucle que recorra las variables de la estructura de datos personalizada -->
+                        {% for subvar, subdetails in typedetails.items() %}
+                          <div class="array-edat-item">
+
+                            <!-- identificamos el tipo de variable entre number, string y boolean -->
+                            {% if subdetails == 'number' %}
+                              <label for="{{ subvar }}[{{ i }}]">{{ subvar }} :</label>
+                              <input type="number" name="{{ var }}[{{ i }}]" form="configurationForm">
+
+                            {% elif subdetails == 'string' %}
+                              <label for="{{ var }}[{{ i }}]">{{ subvar }} :</label>
+                              <input type="text" name="{{ var }}[{{ i }}]" form="configurationForm" class="wide-input2">
+
+                            {% elif subdetails == 'boolean' %}
+                              <label for="{{ var }}[{{ i }}]">{{ subvar }} :</label>
+                              <input type="checkbox" name="{{ var }}[{{ i }}]" form="configurationForm">
+                          
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                        
+                    {% endfor %}              
+                  {% endif %} 
+
+                {% endif %}
+              </div>
+            {% endfor %}
+
+          <!-- si llega hasta aquí suponemos que es una estructura de datos personalizada -->
+          {% else %}
+            {% if details.type in types %}
+
+              <!-- buscamos el tipo de variable entre las estructuras de datos personalizadas -->
+              {% for type, typedetails in types.items() %}
+                {% if details.type == type %}
+                  <h3 class="array-title">{{ var }}</h3>
+
+                  <!-- creamos un bucle que recorra las variables de la estructura de datos personalizada -->
+                  {% for subvar, subdetails in typedetails.items() %}
+                    <div class="array-item">
+                      
+                      <!-- identificamos el tipo de variable entre number, string y boolean -->
+                      {% if subdetails == 'number' %}
+                        <label for="{{ subvar }}">{{ subvar }} :</label>
+                        <input type="number" name="{{ subvar }}" form="configurationForm">
+                      
+                      {% elif subdetails == 'string' %}
+                        <label for="{{ subvar }}">{{ subvar }} :</label>
+                        <input type="text" name="{{ subvar }}" form="configurationForm" class="wide-input2">
+                      
+                      {% elif subdetails == 'boolean' %}
+                        <label for="{{ subvar }}">{{ subvar }} :</label>
+                        <input type="checkbox" name="{{ subvar }}" form="configurationForm">
+
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+
+              {% endfor %}              
+            {% endif %}
+
           {% endif %}
-
         </div>
-        {% endfor %}
-      {% endif %}
-
-    </div>
-    {% endfor %}    
+      {% endfor %}    
+    </form>
   </body>
 </html>
