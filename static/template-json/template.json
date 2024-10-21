@@ -31,9 +31,12 @@
       "_comment1_": "esta parte contiene las definiciones de tipos",
       "Types":{
         "Pixel":{
-          "x": "number",
-          "y": "number"
+          "x": "integer",
+          "y": "integer"
         }
+    },
+    "Enums":{
+      "VideoMode":["REALTIME", "MOVIE", "DESKTOP"]
     }
   }
   

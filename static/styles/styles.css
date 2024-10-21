@@ -1,5 +1,5 @@
 .variable-section {
-    border: 1.5px solid #000; /* Borde negro */
+    border: 2px solid #000; /* Borde negro */
     padding: 10px; /* Espaciado interno */
     margin-bottom: 10px; /* Espaciado entre secciones */
     border-radius: 5px; /* Bordes redondeados */
@@ -18,7 +18,7 @@
 }
 
 .array-item {
-    border: 1.5px solid #ccc; /* Borde gris claro */
+    border: 1px solid #ccc; /* Borde gris claro */
     padding: 10px; /* Espaciado interno */
     margin-bottom: 10px; /* Espaciado entre elementos */
     border-radius: 5px; /* Bordes redondeados */
@@ -40,7 +40,7 @@
 }
 
 .array-edat-item {
-    border: 1px solid #ccc; /* Borde gris claro */
+    border: 1.5px solid #000; /* Borde gris claro */
     padding: 10px; /* Espaciado interno */
     margin-bottom: 10px; /* Espaciado entre elementos */
     border-radius: 5px; /* Bordes redondeados */

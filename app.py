@@ -15,11 +15,10 @@ def index():
 
 @app.route('/form')
 def form():
-    with open('./static/json/template.json') as f:
+    with open('./static/template-json/template.json') as f:
         template_json = json.load(f)
-        variables, types= template_json['Variables'], template_json['Types'] ##Añadir los try catch o como sea en python
+        variables, types, enums= template_json['Variables'], template_json['Types'], template_json['Enums'] ##Añadir los try catch o como sea en python
     return render_template('form.html', variables=variables, types=types)
-
 
 # Execute the app
 if __name__ == '__main__':
