@@ -1,42 +1,231 @@
 {
-    "_comment": "Este es un ejemplo de variables con diferentes tipos",
-    "Variables": {
-      "my_string": {
-        "type": "string",
-        "value": "Hola mundo"
-      },
-      "my_float": {
-        "type": "number",
-        "subtype": "float",
-        "value": 3.14
-      },
-      "my_int": {
-        "type": "number",
-        "subtype": "integer",
-        "value": 42
-      },
-      "my_boolean": {
-        "type": "boolean",
-        "value": true
-      },
-      "my_pixels":{
-        "type": "array",
-        "array-type": "Pixel",
-        "len": 3
-      },
-      "my_pixel":{
-        "type": "Pixel"
-      }
-    },
-      "_comment1_": "esta parte contiene las definiciones de tipos",
-      "Types":{
-        "Pixel":{
-          "x": "integer",
-          "y": "integer"
-        }
-    },
-    "Enums":{
-      "VideoMode":["REALTIME", "MOVIE", "DESKTOP"]
-    }
-  }
-  
+	"_comment1_": "Esta parte contiene las definiciones de tipos",
+	"Types": {
+		"Options":{
+			"stream_id":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,4294967295]
+			},
+			"path_lhe":{
+				"type":"string",
+				"sub_type":"path",
+				"max_len": 255
+			},
+			"dest_proxy2decoder":{
+				"type":"string",
+				"sub_type":"ipv4",
+				"max_len": 15
+			},
+			"dest_proxy2coder":{
+				"type":"string",
+				"sub_type":"ipv4",
+				"max_len": 15
+			}
+
+		},
+		"Kernel":{
+			"source_id":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,10]
+			},
+			"kernel_id":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,10]
+			},
+			"flow_portion_id":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,3]
+			},
+			"row_ini":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,255]
+			},
+			"row_fin":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,255]
+			}
+		},
+		"Source":{
+			"active":{
+				"type":"boolean"
+			},
+			"priority":{
+				"type":"number",
+				"sub_type":"integer",
+				"valid_range": [0,1]
+			},
+			"platform":{
+				"type":"Platform"
+			},
+			"device":{
+				"type":"Device"
+			},
+			"write_mode":{
+				"type":"WriteMode"
+			},
+			"device_pixel_format":{
+				"type":"PixelFormat"
+			},
+			"enable_streaming":{
+				"type":"boolean"
+			},
+			"enable_LHE_file":{
+				"type":"boolean"
+			},
+			"video_mode":{
+				"type":"VideoMode"
+			},
+			"target_BW":{
+				"hint":"The bandwidth in Mbps to which the encoder will try to accomodate.",
+				"type":"number",
+				"sub_type":"float",
+				"valid_range": [0,3000]
+			},
+			"command_order":{
+				"type":"string",
+				"max_len": 10
+			},
+			"source_type":{
+				"type":"SourceType"
+			}
+		}
+	},
+	"Enums":{
+		"VideoMode":["REALTIME", "MOVIE", "DESKTOP", "PSNR"],
+		"Platform":["Intel", "Nvidia", "AMD"],
+		"Device":["CPU", "GPU"],
+		"WriteMode":["WriteBuffer", "Unmap"],
+		"PixelFormat":["RGB", "BGR", "BGRA", "YUV444", "UYVY", "YUV420", "NV12"],
+		"SourceType":[
+			{
+				"_Name_":"IMAGE_FILE",
+				"filename":{
+					"type":"string",
+					"sub_type":"path",
+					"max_len": 255
+				}
+			},
+			{
+				"_Name_":"VIDEO_FILE",
+				"filename":{
+					"type":"string",
+					"sub_type":"path",
+					"max_len": 255
+				}
+			},
+			{
+				"_Name_":"LHE_FILE",
+				"filename":{
+					"type":"string",
+					"sub_type":"path",
+					"max_len": 255
+				}
+			},
+			{
+				"_Name_":"SCREEN_GDI",
+				"screen_id":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [0,2]
+				},
+				"width":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,15360]
+				},
+				"height":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,8640]
+				},
+				"fps_SW":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,360]
+				}
+			},
+			{
+				"_Name_":"SCREEN_DX",
+				"screen_id":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [0,2]
+				},
+				"width":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,15360]
+				},
+				"height":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,8640]
+				},
+				"fps_SW":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,360]
+				}
+			},
+			{
+				"_Name_":"USB_CAMERA",
+				"camera_id":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [0,10]
+				},
+				"width":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,15360]
+				},
+				"height":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,8640]
+				},
+				"fps_HW":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,360]
+				},
+				"fps_SW":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [1,360]
+				}
+			},
+			{
+				"_Name_":"COPY",
+				"original_source":{
+					"type":"number",
+					"sub_type":"integer",
+					"valid_range": [0,10]
+				}
+			}
+		]
+	},
+	
+	"_comment2_": "Esta parte contiene las variables a configurar",
+	"Variables": {
+		"options": {
+			"type": "Options"
+		},
+		"source": {
+			"type":"array",
+			"array-type": "Source",
+			"len": 3
+		},
+		"kernels": {
+			"type":"array",
+			"array-type": "Kernel",
+			"len": 6
+		}
+	}
+}

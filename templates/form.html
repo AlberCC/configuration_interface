@@ -74,6 +74,7 @@
         {% endif %}
       {% endmacro %}
 
+      <!-- cargarse la macro esta y meterla directamente en la macro principal -->
       {% macro render_custom_variable(var, details, types, enums, prefix='') %}        
 
         <!-- buscamos el tipo de variable entre las estructuras de datos personalizadas -->
@@ -82,7 +83,8 @@
               
               <!-- creamos un bucle que recorra las variables de la estructura de datos personalizada -->
               {% for subvar, subdetails in typedetails.items() %}
-                <div class="array-item">                  
+                <div class="array-item">           
+                  {{ render_variable(subvar, subdetails, types, enums, prefix + var + '.') }}       
 
                   <!-- identificamos el tipo de variable entre number, string y boolean -->
                   {% if subdetails == 'string' %}
@@ -117,6 +119,9 @@
           {{ render_variable(var, details, types, enums) }}
         </div>        
       {% endfor %}
+      <div class="submit-container">
+        <button type="submit" class="submit-button">Submit</button>
+      </div>
     </form>
   </body>
 </html>
