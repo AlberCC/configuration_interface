@@ -217,7 +217,7 @@
 		"options": {
 			"type": "Options"
 		},
-		"source": {
+		"sources": {
 			"type":"array",
 			"array-type": "Source",
 			"len": 3

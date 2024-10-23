@@ -15,7 +15,10 @@
         <!-- identificamos los casos base, variable de tipo number, string o boolean -->
         {% if details.type == 'number' %}
           <label for="{{ prefix + var}}">{{ prefix + var }}:</label>
-          <input type="number" name="{{ prefix + var }}" form="configurationForm">
+          <input type="number" name="{{ prefix + var }}" form="configurationForm"
+                    {% if details.valid_range %}
+                     min="{{ details.valid_range[0] }}" max="{{ details.valid_range[1] }}"
+                   {% endif %}>
         {% elif details.type == 'string' %}
           <label for="{{ prefix + var }}">{{ prefix + var }}:</label>
           <input type="text" name="{{ prefix + var }}" form="configurationForm" class="wide-input">
@@ -27,37 +30,7 @@
         {% elif details.type == 'array' %}
           <h3 class="array-title">{{ var}}</h3>
           <div class="array-section">
-
-            <!-- bucle que recorre los elementos del array-->
-            {% for i in range(details.len) %}
-
-                <!-- identificamos el tipo de variable del array-->
-                {% if details['array-type'] in ['string', 'boolean'] %}
-                  <div class="array-item">
-                    {{ render_variable(var + '[' + i|string + ']', {'type': details['array-type']}, types, enums, prefix) }}
-                  </div>                  
-
-                <!-- si el tipo de variable es un número, creamos un input de tipo number -->
-                {% elif details['array-type'] == 'integer' or details['array-type'] == 'number'%}
-                  <div class="array-item">
-                    {{ render_variable(var + '[' + i|string + ']', {"type": "number", "subtype": "integer"}, types, enums, prefix) }} 
-                  </div>
-
-                {% elif details['array-type'] == 'float' %}
-                  <div class="array-item">
-                    {{ render_variable(var + '[' + i|string + ']', {"type": "number", "subtype": "float"}, types, enums, prefix) }}
-                  </div>
-
-                <!-- si llegamos hasta aquí, el tipo de array es un array de una estructura personalizada-->
-                {% else %}
-                  <div class="array-edat-item">
-                    <h3 class="array-edat-title">{{ var }}[{{ i }}]</h3>
-                    {{ render_custom_variable(var + '[' + i|string + ']', {'type': details['array-type']}, types, enums, prefix) }}
-                  </div>
-
-                {% endif %}
-            {% endfor %}
-
+            {{ render_array_variable(var, details, types, enums, prefix) }}
           </div>
 
         {% else %}
@@ -74,7 +47,7 @@
         {% endif %}
       {% endmacro %}
 
-      <!-- cargarse la macro esta y meterla directamente en la macro principal -->
+
       {% macro render_custom_variable(var, details, types, enums, prefix='') %}        
 
         <!-- buscamos el tipo de variable entre las estructuras de datos personalizadas -->
@@ -85,33 +58,48 @@
               {% for subvar, subdetails in typedetails.items() %}
                 <div class="array-item">           
                   {{ render_variable(subvar, subdetails, types, enums, prefix + var + '.') }}       
-
-                  <!-- identificamos el tipo de variable entre number, string y boolean -->
-                  {% if subdetails == 'string' %}
-                    {{ render_variable(subvar, {'type': 'string'}, types, enums, prefix + var + '.') }} 
-                    
-                  {% elif subdetails == 'boolean' %}
-                    {{ render_variable(subvar, {'type': 'boolean'}, types, enums, prefix + var + '.') }} 
-
-                  <!-- si el tipo de variable es un número, creamos un input de tipo number -->
-                  {% elif subdetails == 'integer' or subdetails == 'number' %}
-                    {{ render_variable(subvar, {"type": "number", "subtype": "integer"}, types, enums, prefix + var + '.') }} 
-                    
-                  {% elif subdetails == 'float' %}
-                    {{ render_variable(subvar, {"type": "number", "subtype": "float"}, types, enums, prefix + var + '.') }}
-                
-                  <!-- si llegamos hasta aquí identificamos que es una estructura propia -->
-                  {% else %}
-                    {{ render_custom_variable(subvar, {'type': subdetails}, types, enums, prefix + '.') }}                  
-
-                  {% endif %}
                 </div>
               {% endfor %}
             {% endif %}
         {% endfor %}
         
-        
       {% endmacro %}
+
+
+      {% macro render_array_variable(var, details, types, enums, prefix='') %}        
+
+        <!-- bucle que recorre los elementos del array-->
+        {% for i in range(details.len) %}
+
+          <!-- identificamos el tipo de variable del array-->
+          {% if details['array-type'] in ['string', 'boolean'] %}
+            <div class="array-item">
+              {{ render_variable(var + '[' + i|string + ']', {'type': details['array-type']}, types, enums, prefix) }}
+            </div>                  
+
+          <!-- si el tipo de variable es un número, creamos un input de tipo number -->
+          {% elif details['array-type'] == 'integer' or details['array-type'] == 'number'%}
+            <div class="array-item">
+              {{ render_variable(var + '[' + i|string + ']', {"type": "number", "subtype": "integer"}, types, enums, prefix) }} 
+            </div>
+
+          {% elif details['array-type'] == 'float' %}
+            <div class="array-item">
+              {{ render_variable(var + '[' + i|string + ']', {"type": "number", "subtype": "float"}, types, enums, prefix) }}
+            </div>
+
+          <!-- si llegamos hasta aquí, el tipo de array es un array de una estructura personalizada-->
+          {% else %}
+            <div class="array-edat-item">
+              <h3 class="array-edat-title">{{ var }}[{{ i }}]</h3>
+              {{ render_custom_variable(var + '[' + i|string + ']', {'type': details['array-type']}, types, enums, prefix) }}
+            </div>
+
+          {% endif %}
+        {% endfor %}
+
+      {% endmacro %}
+
 
       <!-- bucle que recorre las variables de las que necesitamos el formulario de configuración -->
       {% for var, details in variables.items() %}

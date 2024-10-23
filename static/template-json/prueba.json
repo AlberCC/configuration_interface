@@ -1,0 +1,47 @@
+{
+    "_comment": "Este es un ejemplo de variables con diferentes tipos",
+    "Variables": {
+      "my_string": {
+        "type": "string",
+        "value": "Hola mundo"
+      },
+      "my_float": {
+        "type": "number",
+        "subtype": "float",
+        "value": 3.14
+      },
+      "my_int": {
+        "type": "number",
+        "subtype": "integer",
+        "value": 42
+      },
+      "my_boolean": {
+        "type": "boolean",
+        "value": true
+      },
+      "my_pixels":{
+        "type": "array",
+        "array-type": "Pixel",
+        "len": 3
+      },
+      "my_pixel":{
+        "type": "Pixel"
+      },
+      "my_arrays":{
+        "type": "array",
+        "array-type": "string",
+        "len": 3
+      }
+    },
+      "_comment1_": "esta parte contiene las definiciones de tipos",
+      "Types":{
+        "Pixel":{
+          "x": "integer",
+          "y": "integer"
+        }
+    },
+    "Enums":{
+      "VideoMode":["REALTIME", "MOVIE", "DESKTOP"]
+    }
+  }
+  
