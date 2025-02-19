@@ -1,1 +1,1 @@
-Repositorio abandonado, continúa en REMOTE_DRIVER/REMOTE_CONFIGURATOR
+Repositorio abandonado, continúa en REMOTE-DRIVER/REMOTE_CONFIGURATOR
